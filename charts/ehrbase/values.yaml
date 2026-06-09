@@ -5,11 +5,22 @@
 config:
   enabled: true
 
+  basicAuth:
+    enabled: true
+    adminUsername: ehrbase-admin
+    adminPassword: ""
+    username: ehrbase-user
+    password: ""
+    existingSecret: ""
+
   file: |
     management:
       endpoint:
         health:
           access: read_only
+      endpoints:
+        web:
+          access: public
       server:
         port: {{ .Values.service.ports.management }}
 

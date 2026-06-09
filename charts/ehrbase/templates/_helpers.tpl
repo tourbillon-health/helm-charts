@@ -76,3 +76,14 @@ Create the name of the cnpg cluster to use
 {{- end }}
 {{- end }}
 {{- end }}
+
+{{/*
+Create the name of the basic auth secret to use
+*/}}
+{{- define "ehrbase.basicAuthSecretName" -}}
+{{- if .Values.config.basicAuth.existingSecret }}
+{{- .Values.config.basicAuth.existingSecret }}
+{{- else }}
+{{- include "ehrbase.fullname" . | trunc 63 | trimSuffix "-" }}
+{{- end }}
+{{- end }}

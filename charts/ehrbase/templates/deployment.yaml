@@ -74,6 +74,30 @@ spec:
                 secretKeyRef:
                   name: {{ include "ehrbase.cnpgClusterName" . }}-app
                   key: jdbc-uri
+            {{- if .Values.config.basicAuth.enabled }}
+            - name: SECURITY_AUTHTYPE
+              value: "basic"
+            - name: SECURITY_AUTHADMINUSER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "ehrbase.basicAuthSecretName" . }}
+                  key: admin-username
+            - name: SECURITY_AUTHADMINPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "ehrbase.basicAuthSecretName" . }}
+                  key: admin-password
+            - name: SECURITY_AUTHUSER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "ehrbase.basicAuthSecretName" . }}
+                  key: username
+            - name: SECURITY_AUTHPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "ehrbase.basicAuthSecretName" . }}
+                  key: password
+            {{- end }}
           ports:
             - name: http
               containerPort: {{ .Values.service.ports.http }}

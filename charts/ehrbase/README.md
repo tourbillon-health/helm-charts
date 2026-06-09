@@ -58,8 +58,14 @@ helm uninstall ehrbase --namespace ehrbase
 | cnpg.mode | string | `"standalone"` |  |
 | cnpg.type | string | `"postgresql"` |  |
 | cnpg.version.postgresql | string | `"18"` |  |
+| config.basicAuth.adminPassword | string | `""` |  |
+| config.basicAuth.adminUsername | string | `"ehrbase-admin"` |  |
+| config.basicAuth.enabled | bool | `true` |  |
+| config.basicAuth.existingSecret | string | `""` |  |
+| config.basicAuth.password | string | `""` |  |
+| config.basicAuth.username | string | `"ehrbase-user"` |  |
 | config.enabled | bool | `true` |  |
-| config.file | string | `"management:\n  endpoint:\n    health:\n      access: read_only\n  server:\n    port: {{ .Values.service.ports.management }}\n\nplugin-manager:\n  enable: false\n\nserver:\n  port: {{ .Values.service.ports.http }}\n  servlet:\n    context-path: /\n\nspringdoc:\n  api-docs:\n    enabled: false\n  swagger-ui:\n    enabled: false\n"` |  |
+| config.file | string | `"management:\n  endpoint:\n    health:\n      access: read_only\n  endpoints:\n    web:\n      access: public\n  server:\n    port: {{ .Values.service.ports.management }}\n\nplugin-manager:\n  enable: false\n\nserver:\n  port: {{ .Values.service.ports.http }}\n  servlet:\n    context-path: /\n\nspringdoc:\n  api-docs:\n    enabled: false\n  swagger-ui:\n    enabled: false\n"` |  |
 | fullnameOverride | string | `""` |  |
 | httpRoute | object | `{"annotations":{},"enabled":false,"hostnames":["ehrbase.local"],"parentRefs":[{"name":"gateway","sectionName":"http"}],"rules":[{"matches":[{"path":{"type":"PathPrefix","value":"/headers"}}]}]}` | Expose the service via gateway-api HTTPRoute Requires Gateway API resources and suitable controller installed within the cluster (see: https://gateway-api.sigs.k8s.io/guides/) |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
