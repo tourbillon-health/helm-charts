@@ -23,6 +23,7 @@ jobs:
         uses: azure/setup-helm@v5.0.0
 
       - name: Run chart-releaser
+        id: chart-releaser
         uses: helm/chart-releaser-action@v1.7.0
         with:
           skip_upload: true
@@ -30,9 +31,11 @@ jobs:
           CR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Login to GitHub Container registry
+        if: steps.chart-releaser.outputs.changed_charts != ''
         run: echo "${{ secrets.GITHUB_TOKEN }}" | helm registry login ghcr.io -u ${{ github.actor }} --password-stdin
 
       - name: Push charts to GitHub Container registry
+        if: steps.chart-releaser.outputs.changed_charts != ''
         run: |
           for pkg in .cr-release-packages/*; do
             if [ -z "${pkg:-}" ]; then
