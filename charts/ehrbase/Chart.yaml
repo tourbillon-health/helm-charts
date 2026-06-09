@@ -1,7 +1,7 @@
 apiVersion: v2
 name: ehrbase
 version: 0.1.0
-description: A Helm chart for deploying EHRbase on Kubernetes
+description: A Helm chart for deploying EHRbase on Kubernetes.
 type: application
 dependencies:
   - name: cluster

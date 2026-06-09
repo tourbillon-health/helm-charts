@@ -1,0 +1,38 @@
+# EHRbase Helm Chart
+
+{{ template "chart.versionBadge" . }}{{ template "chart.typeBadge" . }}{{ template "chart.appVersionBadge" . }}
+
+{{ template "chart.description" . }}
+
+> [!IMPORTANT]
+> This chart is in early development and should not be used in production environments. It is intended for testing and
+> development purposes only.
+
+## Prerequisites
+
+- [CloudNativePG](https://cloudnative-pg.io/) 1.29+ (if using the included PostgreSQL deployment)
+
+## Getting Started
+
+To install the chart:
+
+```bash
+helm install ehrbase oci://ghcr.io/tourbillon-health/helm-charts/ehrbase \
+  --namespace ehrbase \
+  --create-namespace
+```
+
+To upgrade an existing release:
+
+```bash
+helm upgrade ehrbase oci://ghcr.io/tourbillon-health/helm-charts/ehrbase \
+  --namespace ehrbase
+```
+
+To uninstall the chart:
+
+```bash
+helm uninstall ehrbase --namespace ehrbase
+```
+
+{{ template "chart.valuesSection" . }}
