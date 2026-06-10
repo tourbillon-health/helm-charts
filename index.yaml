@@ -1,0 +1,23 @@
+apiVersion: v1
+entries:
+  ehrbase:
+  - apiVersion: v2
+    appVersion: 2.32.0
+    created: "2026-06-10T20:38:30.043208688Z"
+    dependencies:
+    - alias: cnpg
+      condition: cnpg.enabled
+      name: cluster
+      repository: oci://ghcr.io/cloudnative-pg/charts
+      version: 0.6.1
+    description: A Helm chart for deploying EHRbase on Kubernetes.
+    digest: 31adb7f7482ea7c2c7d1a2320e8052b4f48cc59d4c65cced5d11f6cd46f2907e
+    maintainers:
+    - name: Tourbillon
+      url: https://tourbillon.health
+    name: ehrbase
+    type: application
+    urls:
+    - https://github.com/tourbillon-health/helm-charts/releases/download/ehrbase-0.2.0/ehrbase-0.2.0.tgz
+    version: 0.2.0
+generated: "2026-06-10T20:38:30.043228598Z"
