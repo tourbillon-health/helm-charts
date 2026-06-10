@@ -2,12 +2,15 @@ name: Lint and Test
 
 on:
   pull_request:
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch:
 
 jobs:
   lint-and-test:
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout
@@ -21,7 +24,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
         with:
-          python-version: '3.14'
+          python-version: "3.14"
 
       - name: Set up chart-testing
         uses: helm/chart-testing-action@6ec842c01de15ebb84c8627d2744a0c2f2755c9f # v2.8.0
@@ -33,6 +36,48 @@ jobs:
           if [[ -n "$changed" ]]; then
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
+
+      - name: Install helm-docs
+        if: steps.list-changed.outputs.changed == 'true'
+        run: |
+          HELM_DOCS_VERSION=1.14.2
+
+          curl -sSL "https://github.com/norwoodj/helm-docs/releases/download/v${HELM_DOCS_VERSION}/helm-docs_${HELM_DOCS_VERSION}_Linux_x86_64.tar.gz" \
+            -o helm-docs.tar.gz
+
+          tar -xzf helm-docs.tar.gz          
+          sudo mv helm-docs /usr/local/bin/
+
+      - name: Generate helm-docs
+        if: steps.list-changed.outputs.changed == 'true'
+        run: helm-docs
+
+      - name: Check for helm-docs changes
+        id: docs
+        if: steps.list-changed.outputs.changed == 'true'
+        run: |
+          git add charts/**/*.md
+
+          if git diff --cached --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Commit and push helm-docs changes
+        if: steps.docs.outputs.changed == 'true' && github.actor == 'tourbillon-renovate[bot]'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git commit -m "docs: update helm docs"
+          git push
+
+      - name: Fail if helm-docs changes are needed
+        if: steps.docs.outputs.changed == 'true' && github.actor != 'tourbillon-renovate[bot]'
+        run: |
+          echo "::error::Helm documentation is out of date. Run helm-docs and commit the generated README.md changes."
+          exit 1
 
       - name: Run chart-testing (lint)
         if: steps.list-changed.outputs.changed == 'true'
