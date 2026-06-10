@@ -86,6 +86,7 @@ helm uninstall ehrbase --namespace ehrbase
 | initContainer.image.pullPolicy | string | `"IfNotPresent"` |  |
 | initContainer.image.repository | string | `"busybox"` |  |
 | initContainer.image.tag | string | `"stable"` |  |
+| initContainer.securityContext.allowPrivilegeEscalation | bool | `false` |  |
 | initContainer.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
 | initContainer.securityContext.readOnlyRootFilesystem | bool | `true` |  |
 | initContainer.securityContext.runAsNonRoot | bool | `true` |  |
@@ -105,6 +106,7 @@ helm uninstall ehrbase --namespace ehrbase
 | readinessProbe.timeoutSeconds | int | `3` |  |
 | replicaCount | int | `1` |  |
 | resources | object | `{}` |  |
+| securityContext.allowPrivilegeEscalation | bool | `false` |  |
 | securityContext.capabilities.drop[0] | string | `"ALL"` |  |
 | securityContext.readOnlyRootFilesystem | bool | `false` |  |
 | securityContext.runAsNonRoot | bool | `true` |  |
