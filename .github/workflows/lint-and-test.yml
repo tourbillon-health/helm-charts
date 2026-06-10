@@ -76,7 +76,7 @@ jobs:
       - name: Fail if helm-docs changes are needed
         if: steps.docs.outputs.changed == 'true' && github.actor != 'tourbillon-renovate[bot]'
         run: |
-          echo "::error::Helm documentation is out of date. Run helm-docs and commit the generated README.md changes."
+          echo "::error::Helm documentation needs to be updated. Please run 'helm-docs' locally and commit the changes."
           exit 1
 
       - name: Run chart-testing (lint)
