@@ -1,6 +1,6 @@
 # EHRbase Helm Chart
 
-![Version: 0.2.0](https://img.shields.io/badge/Version-0.2.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.32.0](https://img.shields.io/badge/AppVersion-2.32.0-informational?style=flat-square)
+![Version: 0.2.1](https://img.shields.io/badge/Version-0.2.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.32.0](https://img.shields.io/badge/AppVersion-2.32.0-informational?style=flat-square)
 
 A Helm chart for deploying EHRbase on Kubernetes.
 
@@ -66,6 +66,10 @@ helm uninstall ehrbase --namespace ehrbase
 | config.basicAuth.username | string | `"ehrbase-user"` |  |
 | config.enabled | bool | `true` |  |
 | config.file | string | `"management:\n  endpoint:\n    health:\n      access: read_only\n  endpoints:\n    web:\n      access: public\n  server:\n    port: {{ .Values.service.ports.management }}\n\nplugin-manager:\n  enable: false\n\nserver:\n  port: {{ .Values.service.ports.http }}\n  servlet:\n    context-path: /\n\nspringdoc:\n  api-docs:\n    enabled: false\n  swagger-ui:\n    enabled: false\n"` |  |
+| extraEnv | list | `[]` |  |
+| extraEnvFrom | list | `[]` |  |
+| extraVolumeMounts | list | `[]` |  |
+| extraVolumes | list | `[]` |  |
 | fullnameOverride | string | `""` |  |
 | httpRoute | object | `{"annotations":{},"enabled":false,"hostnames":["ehrbase.local"],"parentRefs":[{"name":"gateway","sectionName":"http"}],"rules":[{"matches":[{"path":{"type":"PathPrefix","value":"/headers"}}]}]}` | Expose the service via gateway-api HTTPRoute Requires Gateway API resources and suitable controller installed within the cluster (see: https://gateway-api.sigs.k8s.io/guides/) |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
@@ -82,6 +86,7 @@ helm uninstall ehrbase --namespace ehrbase
 | initContainer.image.pullPolicy | string | `"IfNotPresent"` |  |
 | initContainer.image.repository | string | `"busybox"` |  |
 | initContainer.image.tag | string | `"stable"` |  |
+| initContainer.securityContext.allowPrivilegeEscalation | bool | `false` |  |
 | initContainer.securityContext.capabilities.drop[0] | string | `"ALL"` |  |
 | initContainer.securityContext.readOnlyRootFilesystem | bool | `true` |  |
 | initContainer.securityContext.runAsNonRoot | bool | `true` |  |
@@ -101,6 +106,7 @@ helm uninstall ehrbase --namespace ehrbase
 | readinessProbe.timeoutSeconds | int | `3` |  |
 | replicaCount | int | `1` |  |
 | resources | object | `{}` |  |
+| securityContext.allowPrivilegeEscalation | bool | `false` |  |
 | securityContext.capabilities.drop[0] | string | `"ALL"` |  |
 | securityContext.readOnlyRootFilesystem | bool | `false` |  |
 | securityContext.runAsNonRoot | bool | `true` |  |
@@ -113,5 +119,3 @@ helm uninstall ehrbase --namespace ehrbase
 | serviceAccount.create | bool | `true` |  |
 | serviceAccount.name | string | `""` |  |
 | tolerations | list | `[]` |  |
-| volumeMounts | list | `[]` |  |
-| volumes | list | `[]` |  |

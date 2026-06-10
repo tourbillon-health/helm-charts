@@ -81,6 +81,7 @@ securityContext:
   capabilities:
     drop:
       - ALL
+  allowPrivilegeEscalation: false
   readOnlyRootFilesystem: false
   runAsNonRoot: true
   runAsUser: 1000
@@ -183,17 +184,21 @@ autoscaling:
   # targetMemoryUtilizationPercentage: 80
 
 # Additional volumes on the output Deployment definition.
-volumes: []
+extraVolumes: []
   # - name: foo
   #   secret:
   #     secretName: mysecret
   #     optional: false
 
 # Additional volumeMounts on the output Deployment definition.
-volumeMounts: []
+extraVolumeMounts: []
   # - name: foo
   #   mountPath: "/etc/foo"
   #   readOnly: true
+
+extraEnv: []
+
+extraEnvFrom: []
 
 nodeSelector: {}
 
@@ -211,6 +216,7 @@ initContainer:
     capabilities:
       drop:
         - ALL
+    allowPrivilegeEscalation: false
     readOnlyRootFilesystem: true
     runAsNonRoot: true
     runAsUser: 1000
