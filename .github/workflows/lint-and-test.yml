@@ -70,7 +70,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git commit -m "docs: update helm docs"
+          git commit -m "docs: update helm-docs [skip ci]"
           git push
 
       - name: Fail if helm-docs changes are needed
